@@ -1,0 +1,198 @@
+version: '3.8'
+
+services:
+  server-1:
+    build:
+      context: ./chatapp
+      dockerfile: Dockerfile
+    image: backend
+    container_name: backend
+    volumes:
+      - ./chatapp/:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - mongo-1
+    environment:
+      - PORT=27017
+    ports:
+      - "8000:8000"
+    networks:
+      - app-network
+
+  mongo-1:
+    image: mongo
+    volumes:
+      - data-volume-1:/data/db
+    ports:
+      - "27017:27017"
+    container_name: mongo-1
+    networks:
+      - app-network
+
+
+  frontend:
+    build:
+      context: ./chatappfront
+      dockerfile: Dockerfile
+    image: frontend
+    volumes:
+      - ./chatappfront/:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+    depends_on:
+      - mongo-1
+  
+
+  server-2:
+    build:
+      context: ./chatapp
+      dockerfile: Dockerfile
+    image: backend
+    container_name: backend2
+    volumes: 
+      - ./chatapp/:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - mongo-2
+    environment:
+      - PORT=27018
+    ports:
+      - "8001:8000"
+    networks:
+      - app-network
+
+
+  mongo-2:
+    image: mongo
+    volumes:
+      - data-volume-2:/data/db
+    ports:
+      - "27018:27017"
+    container_name: mongo-2
+    networks:
+      - app-network
+
+  server-3:
+    build:
+      context: ./chatapp
+      dockerfile: Dockerfile
+    image: backend
+    container_name: backend3
+    volumes: 
+      - ./chatapp/:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - mongo-3
+    environment:
+      - PORT=27019
+    ports:
+      - "8002:8000"
+    networks:
+      - app-network
+
+
+  mongo-3:
+    image: mongo
+    volumes:
+      - data-volume-3:/data/db
+    ports:
+      - "27019:27017"
+    container_name: mongo-3
+    networks:
+      - app-network
+  # server-2:
+  #   build:
+  #     context: ./chatapp
+  #     dockerfile: Dockerfile
+  #   image: backend
+  #   volumes: 
+  #     - ./chatapp/:/usr/src/app
+  #    # - /usr/src/app/node_modules
+  #   ports:
+  #     - "8000:8000"
+  #   networks:
+  #     - app-network
+
+
+  
+
+volumes:
+  node_modules:
+  data-volume-1:
+  data-volume-2:
+  data-volume-3:
+networks:
+      app-network:
+        driver: bridge
+
+# version: '3.8'
+
+# services:
+
+#   backend:
+#     build:
+#       context: ./chatapp
+#       dockerfile: Dockerfile
+#     container_name: backend
+#     image: backend
+#     volumes: 
+#       - ./chatapp/:/usr/src/app
+#      # - /usr/src/app/node_modules
+#     depends_on:
+#       - mongo-1
+#     ports:
+#       - "8000:8000"
+#     networks:
+#       - app-network
+
+#   mongo-1:
+#     container_name: mongo-1
+#     image: mongo
+#     volumes:
+#       - data-volume:/data/db
+#     ports:
+#       - "8001:8000"
+#     networks:
+#       - app-network
+
+
+#   frontend:
+#     build:
+#       context: ./chatappfront
+#       dockerfile: Dockerfile
+#     image: frontend
+#     volumes:
+#       - ./chatappfront/:/usr/src/app
+#     #  - ./usr/src/app/node_modules
+#     ports:
+#       - "8002:8000"
+#     networks:
+#       - app-network
+#     depends_on:
+#       - mongo-1
+  
+#   # server-2:
+#   #   build:
+#   #     context: ./chatapp
+#   #     dockerfile: Dockerfile
+#   #   image: backend
+#   #   volumes: 
+#   #     - ./chatapp/:/usr/src/app
+#   #    # - /usr/src/app/node_modules
+#   #   ports:
+#   #     - "8000:8000"
+#   #   networks:
+#   #     - app-network
+
+
+  
+
+# volumes:
+#   node_modules:
+#   data-volume:
+# networks:
+#       app-network:
+#         driver: bridge

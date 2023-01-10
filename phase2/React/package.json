@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "react-router": "6.2.0",
+    "react-router-dom": "6.2.0"
+  },
+  "devDependencies": {
+    "mongoose": "^6.2.2",
+    "nodemon": "^2.0.15"
+  }
+}
